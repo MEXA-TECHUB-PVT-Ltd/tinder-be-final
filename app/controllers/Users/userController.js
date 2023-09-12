@@ -547,6 +547,7 @@ exports.updateProfile = async (req, res) => {
 
 exports.updatePassword = async (req, res) => {
     try {
+        console.log('in update')
         const email = req.body.email;
         const phone_number = req.body.phone_number;
         const password = req.body.password;
@@ -562,7 +563,7 @@ exports.updatePassword = async (req, res) => {
             const foundQuery = 'SELECT * FROM users WHERE email = $1 and login_type = $2';
             const foundResult = await pool.query(foundQuery, [email, 'email']);
 
-            if (foundResult.rows[0]) {
+            if (foundResult.rowCount>0) {
                 const query = 'UPDATE users SET password = $1 WHERE email = $2 RETURNING*';
                 const salt = await bcrypt.genSalt(10);
                 const hashPassword = await bcrypt.hash(password, salt);
@@ -570,33 +571,46 @@ exports.updatePassword = async (req, res) => {
                 const result = await pool.query(query, [hashPassword, email]);
 
                 if (result.rows[0]) {
-                    res.json({ message: "Update successfully", status: true, result: result.rows[0] })
+                    return res.json({ message: "Update successfully", status: true, result: result.rows[0] })
                 }
                 else {
-                    res.json({ message: "Could not Update", status: false })
+                    return res.json({ message: "Could not Update", status: false })
                 }
             }
+            else{
+                return res.json({ message: "user not found", status: false })
+            }
         }
-        if (phone_number) {
+        else if (phone_number) {
             const foundQuery = 'SELECT * FROM users WHERE phone_number = $1 and login_type = $2';
             const foundResult = await pool.query(foundQuery, [email, 'phone_number']);
 
-
-            if (foundResult.rows[0]) {
+            if (foundResult.rowCount > 0) {
                 const query = 'UPDATE users SET password = $1 WHERE phone_number = $2 RETURNING*';
+                console.log('1')
+
                 const salt = await bcrypt.genSalt(10);
                 const hashPassword = await bcrypt.hash(password, salt);
-                const result = await pool.query(query, [hashPassword, email]);
-
-                if (result.rows[0]) {
-                    res.json({ message: "Update successfully", status: true, result: result.rows[0] })
+                console.log('2')
+                const result = await pool.query(query, [hashPassword, phone_number]);
+                console.log(result.rowCount)
+                if (result.rowCount>0) {
+                    return res.json({ message: "Update successfully", status: true, result: result.rows[0] })
                 }
                 else {
-                    res.json({ message: "Could not Update", status: false })
+                    return res.json({ message: "Could not Update", status: false })
                 }
             }
+            else{
+                return res.json({ message: "user not found", status: false })
+            }
         }
-
+        else{
+            return res.json({
+                status:false,
+                message:'not found'
+            })
+        }
 
     }
     catch (err) {
