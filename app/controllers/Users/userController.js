@@ -583,7 +583,7 @@ exports.updatePassword = async (req, res) => {
         }
         else if (phone_number) {
             const foundQuery = 'SELECT * FROM users WHERE phone_number = $1 and login_type = $2';
-            const foundResult = await pool.query(foundQuery, [email, 'phone_number']);
+            const foundResult = await pool.query(foundQuery, [phone_number, 'phone_number']);
 
             if (foundResult.rowCount > 0) {
                 const query = 'UPDATE users SET password = $1 WHERE phone_number = $2 RETURNING*';
