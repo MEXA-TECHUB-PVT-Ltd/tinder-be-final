@@ -55,7 +55,9 @@ exports.viewCards = async (req, res) => {
         let offset = (page - 1) * limit;
 
         const excludeProfileIds = await getSwipedProfileIds(user_id, 'right');
+        console.log(excludeProfileIds)
         const potentialMatches = await getPotentialMatches(latitude, longitude, user_id, excludeProfileIds, limit, offset, radius, start_age, end_age, gender, common_interest, recently_online);
+        console.log(potentialMatches)
         if (potentialMatches) {
             res.json({
                 message: "Fetched Successfully",
@@ -695,8 +697,8 @@ exports.getAllBoostedProfiles = async (req, res) => {
                 status: false,
             })
         }
-        const query = 'SELECT * FROM users WHERE profile_boosted = $1 AND user_id != $2 AND incognito_status = $3';
-        const result = await pool.query(query, [true, user_id, false]);
+        const query = 'SELECT * FROM users WHERE profile_boosted = $1 AND user_id != $2 AND verified_by_email != $3 AND incognito_status = $4';
+        const result = await pool.query(query, [true, user_id, false, false]);
 
         if (result.rows.length > 0) {
             res.json({
@@ -935,7 +937,7 @@ async function getSwipedProfileIds(userId, direction) {
 
 async function getPotentialMatches(latitude, longitude, userId, excludeProfileIds, limit, offset, maxDistance, start_age, end_age, gender, common_interest, recently_online) {
     try {
-
+        console.log('in potential')
         let query;
 
         if (gender && !recently_online) {
@@ -948,6 +950,7 @@ async function getPotentialMatches(latitude, longitude, userId, excludeProfileId
     FROM users
     WHERE user_id <> $3
         AND user_id <> ALL($4)
+        AND verified_by_email <> $9
         AND gender = $8
         AND acos(sin(radians($1)) * sin(radians(latitude))
             + cos(radians($1)) * cos(radians(latitude))
@@ -969,6 +972,7 @@ async function getPotentialMatches(latitude, longitude, userId, excludeProfileId
         FROM users
         WHERE user_id <> $3
             AND user_id <> ALL($4)
+            AND verified_by_email <> $8
             AND acos(sin(radians($1)) * sin(radians(latitude))
                 + cos(radians($1)) * cos(radians(latitude))
                 * cos(radians($2) - radians(longitude))) * 6371 <= $5
@@ -990,6 +994,7 @@ async function getPotentialMatches(latitude, longitude, userId, excludeProfileId
                 FROM users
                 WHERE user_id <> $3
                     AND user_id <> ALL($4)
+                    AND verified_by_email <> $9
                     AND gender = $8
                     AND acos(sin(radians($1)) * sin(radians(latitude))
                         + cos(radians($1)) * cos(radians(latitude))
@@ -1012,6 +1017,7 @@ async function getPotentialMatches(latitude, longitude, userId, excludeProfileId
         
         WHERE user_id <> $3
             AND user_id <> ALL($4)
+            AND verified_by_email <> $8
             AND acos(sin(radians($1)) * sin(radians(latitude))
                 + cos(radians($1)) * cos(radians(latitude))
                 * cos(radians($2) - radians(longitude))) * 6371 <= $5
@@ -1020,16 +1026,18 @@ async function getPotentialMatches(latitude, longitude, userId, excludeProfileId
     
     `;
         }
-
+        console.log(query)
         let values;
         if (gender) {
-            values = [latitude, longitude, userId, excludeProfileIds, maxDistance, offset, limit, gender];
+            values = [latitude, longitude, userId, excludeProfileIds, maxDistance, offset, limit, gender, false];
         }
         else {
-            values = [latitude, longitude, userId, excludeProfileIds, maxDistance, offset, limit];
+            values = [latitude, longitude, userId, excludeProfileIds, maxDistance, offset, limit, false];
 
         }
+        console.log(values)
         const result = await pool.query(query, values);
+        console.log("result: ",result)
         let array = result.rows;
 
         if (start_age && end_age) {
