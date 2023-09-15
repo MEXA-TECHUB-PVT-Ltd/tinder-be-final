@@ -20,8 +20,6 @@ exports.registerWithPh = async (req, res, next) => {
                 })
             )
         }
-
-
         const found_ph_query = 'SELECT * FROM users WHERE phone_number = $1'
         const ph_no_Exists = await pool.query(found_ph_query, [phone_number])
 
@@ -506,7 +504,7 @@ exports.updateProfile = async (req, res) => {
             index++
         }
 
-        if (verified_by_email) {
+        if (verified_by_email != null) {
             query += `verified_by_email = $${index} , `;
             values.push(verified_by_email)
             index++
@@ -1026,7 +1024,7 @@ exports.getAllUsersFiltered = async (req, res) => {
         let finalResults = [];
         await Promise.all(
             result.rows[0].json_agg.map((item, index) => {
-                if (item.user_id != user_id && item.incognito_status == false) {
+                if (item.user_id != user_id && item.incognito_status == false && item.verified_by_email == true) {
                     finalResults.push(item)
                 }
             })
