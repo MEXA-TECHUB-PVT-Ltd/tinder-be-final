@@ -1,7 +1,7 @@
 
 const {pool} = require("../../config/db.config");
 
-
+// ADD REPORT
 exports.reportUser = async (req, res) => {
     const client = await pool.connect();
     try {
@@ -70,6 +70,7 @@ exports.reportUser = async (req, res) => {
 
 }
 
+// GET ALL REPORT
 exports.getReportedUsers= async (req, res) => {
     const client = await pool.connect();
     try {
@@ -126,6 +127,7 @@ exports.getReportedUsers= async (req, res) => {
 
 }
 
+// GET SPEICIFIC REPORT
 exports.get_a_reported_user= async (req, res) => {
     const client = await pool.connect();
     try {

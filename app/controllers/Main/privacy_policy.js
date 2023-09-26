@@ -1,6 +1,6 @@
 const {pool} = require('../../config/db.config');
 
-
+// ADD PRIVACY POLICY
 exports.addPrivacyPolicy = async(req,res)=>{
     const client = await pool.connect();
     try{
@@ -35,8 +35,7 @@ exports.addPrivacyPolicy = async(req,res)=>{
       }
     
 }
-
-
+// GET ALL PRIVACY POLICY
 exports.getAllPrivacyPlicies = async(req,res)=>{
     const client = await pool.connect();
 
@@ -72,7 +71,7 @@ exports.getAllPrivacyPlicies = async(req,res)=>{
         client.release();
       }
 }
-
+// VIEW ALL PRIVACY POLICY
 exports.viewPrivacyPolicy = async(req,res)=>{
     const client = await pool.connect();
 
@@ -109,7 +108,7 @@ exports.viewPrivacyPolicy = async(req,res)=>{
         client.release();
       }
 }
-
+// VIEW ACTIVE PRIVACY POLICY
 exports.viewActivePrivacyPolicy = async(req,res)=>{
     const client = await pool.connect();
 
@@ -145,7 +144,7 @@ exports.viewActivePrivacyPolicy = async(req,res)=>{
         client.release();
       }
 }
-
+// UPDATE PRIVACY POLICY
 exports.updatePrivacyPolicy= async(req,res)=>{
     const client = await pool.connect();
     try{
@@ -183,7 +182,7 @@ exports.updatePrivacyPolicy= async(req,res)=>{
         client.release();
       }
 }
-
+// UPDATE ACTIVE STATUS PRIVACY POLICY
 exports.updateStatus= async(req,res)=>{
     const client = await pool.connect();
 

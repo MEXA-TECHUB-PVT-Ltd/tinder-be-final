@@ -2,7 +2,7 @@
 
 const {pool} = require("../../config/db.config");
 
-
+// THIS API IS FOR ADDING A PREFRENCE 
 exports.addpreference = async (req, res) => {
     const client = await pool.connect();
     try {
@@ -44,6 +44,7 @@ exports.addpreference = async (req, res) => {
 
 }
 
+// THIS API IS FOR UPDATING A PREFRENCE 
 exports.updatepreference = async (req, res) => {
     const client = await pool.connect();
     try {
@@ -115,6 +116,7 @@ exports.updatepreference = async (req, res) => {
       }
 }
 
+// THIS API IS FOR DELETING A PREFRENCE 
 exports.deletepreference = async (req, res) => {
     const client = await pool.connect();
     try {
@@ -157,6 +159,8 @@ exports.deletepreference = async (req, res) => {
         client.release();
       }
 }
+
+// THIS API IS FOR GETTING ALL PREFRENCE 
 exports.getAllpreferences = async (req, res) => {
     const client = await pool.connect();
     try {
@@ -236,6 +240,7 @@ exports.getAllpreferences = async (req, res) => {
 
 }
 
+// THIS API IS FOR GETTING SPECIFIC PREFRENCE 
 exports.getpreferenceById= async (req, res) => {
     const client = await pool.connect();
     try {
@@ -290,6 +295,7 @@ exports.getpreferenceById= async (req, res) => {
 
 }
 
+// THIS API IS FOR GETTING PREFRENCE BY PREFRENCE TYPE
 exports.getPreferencesByPreferenceType = async (req, res) => {
     const client = await pool.connect();
     try {
@@ -347,123 +353,3 @@ exports.getPreferencesByPreferenceType = async (req, res) => {
       }
 
 }
-
-// exports.deleteTemporarily = async (req, res) => {
-//     const client = await pool.connect();
-//     try {
-//         const workout_preference_id = req.query.workout_preference_id;
-//         if (!workout_preference_id) {
-//             return (
-//                 res.status(400).json({
-//                     message: "Please Provide workout_preference_id",
-//                     status: false
-//                 })
-//             )
-//         }
-
-//         const query = 'UPDATE workout_preferences SET trash=$2 WHERE workout_preference_id = $1 RETURNING *';
-//         const result = await pool.query(query , [workout_preference_id , true]);
-
-//         if(result.rowCount>0){
-//             res.status(200).json({
-//                 message: "Temporaily Deleted",
-//                 status: true,
-//                 Temporarily_deletedRecord: result.rows[0]
-//             })
-//         }
-//         else{
-//             res.status(404).json({
-//                 message: "Could not delete . Record With this Id may not found or req.body may be empty",
-//                 status: false,
-//             })
-//         }
-
-//     }
-//     catch (err) {
-//         res.json({
-//             message: "Error",
-//             status: false,
-//             error: err.message
-//         })
-//     }
-//     finally {
-//         client.release();
-//       }
-// }
- 
-// exports.recover_record = async (req, res) => {
-//     const client = await pool.connect();
-//     try {
-//         const workout_preference_id = req.query.workout_preference_id;
-//         if (!workout_preference_id) {
-//             return (
-//                 res.status(400).json({
-//                     message: "Please Provide workout_preference_id",
-//                     status: false
-//                 })
-//             )
-//         }
-
-//         const query = 'UPDATE workout_preferences SET trash=$2 WHERE workout_preference_id = $1 RETURNING *';
-//         const result = await pool.query(query , [workout_preference_id , false]);
-
-//         if(result.rowCount>0){
-//             res.status(200).json({
-//                 message: "Recovered",
-//                 status: true,
-//                 recovered_record: result.rows[0]
-//             })
-//         }
-//         else{
-//             res.status(404).json({
-//                 message: "Could not recover . Record With this Id may not found or req.body may be empty",
-//                 status: false,
-//             })
-//         }
-
-//     }
-//     catch (err) {
-//         res.json({
-//             message: "Error",
-//             status: false,
-//             error: err.message
-//         })
-//     }
-//     finally {
-//         client.release();
-//       }
-// }
- 
-// exports.getAllTrashRecords = async (req, res) => {
-//     const client = await pool.connect();
-//     try {
-
-//         const query = 'SELECT * FROM workout_preferences WHERE trash = $1';
-//         const result = await pool.query(query , [true]);
-
-//         if(result.rowCount>0){
-//             res.status(200).json({
-//                 message: "Recovered",
-//                 status: true,
-//                 trashed_records: result.rows
-//             })
-//         }
-//         else{
-//             res.status(404).json({
-//                 message: "Could not find trash records",
-//                 status: false,
-//             })
-//         }
-
-//     }
-//     catch (err) {
-//         res.json({
-//             message: "Error",
-//             status: false,
-//             error: err.message
-//         })
-//     }
-//     finally {
-//         client.release();
-//       }
-// }

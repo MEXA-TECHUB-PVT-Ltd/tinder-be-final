@@ -6,7 +6,7 @@ const fs = require('fs');
 const schedule = require('node-schedule');
 
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3007;
 const bodyParser = require('body-parser');
 require('dotenv').config()
 const auth = require('./app/middlewares/auth')
@@ -39,8 +39,8 @@ app.get("/" , (req,res)=>{
   res.json("Server is running this is Home Route(/)")
 })
 
-
- app.use("/admin", require("./app/routes/Users/adminRoutes"))
+// ROUTES
+app.use("/admin", require("./app/routes/Users/adminRoutes"))
 app.use("/user", require("./app/routes/Users/userRoute"))
 app.use("/emailVerification", require("./app/routes/EmailVerification/EmailVerificationRoute"))
 app.use("/terms_and_condtions" , require("./app/routes/Main/terms_and_conditionsRoute"))
@@ -72,12 +72,16 @@ app.use('/incognito', require("./app/routes/Main/incognito_userRoute"));
 const server = app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
+
+// SOCKETS
 const io = require("socket.io")(server, {
   cors: {
       origin: "*"
   },
 });
 let activeUsers = [];
+
+// SOCKET ON CONNECTION REQUEST
 io.on("connection" , (socket)=>{
    // add new User
    socket.on("new-user-add", (newUserId) => {
@@ -91,6 +95,7 @@ io.on("connection" , (socket)=>{
     io.emit("get-users", activeUsers);
 });
 
+// SOCKET ON DISCONNECT REQUEST
 socket.on("disconnect", () => {
   // remove user from active users
   activeUsers = activeUsers.filter((user) => user.socketId !== socket.id);
@@ -99,7 +104,7 @@ socket.on("disconnect", () => {
   io.emit("get-users", activeUsers);
 });
 
-
+// SOCKET ON MESSAGE REQUEST
 socket.on("message", async (data) => {
   console.log(data)
   let media_type = data.media_type;
@@ -128,6 +133,7 @@ socket.on("message", async (data) => {
 
 });
 
+// SOCKET ON TYPING REQUEST
 socket.on('typing', ({ chatRoomId, userId, receiverId }) => {
   const user = activeUsers.find((user) => user.userId == receiverId);
   if(user){
@@ -136,6 +142,7 @@ socket.on('typing', ({ chatRoomId, userId, receiverId }) => {
   }
 });
 
+// SOCKET ON STOP TYPING REQUEST
 socket.on('stopTyping', ({ chatRoomId, userId, receiverId }) => {
   const user = activeUsers.find((user) => user.userId == receiverId);
   if(user){
@@ -144,7 +151,7 @@ socket.on('stopTyping', ({ chatRoomId, userId, receiverId }) => {
   }
 });
 
-
+// SOCKET ON RECIEPTS REQUEST
 socket.on('receipts' , async (data) => {
   let result;
   const {message_ids , receipt_type , sender_id , receiver_id}= data
@@ -188,7 +195,6 @@ socket.on('receipts' , async (data) => {
 
 
 //audio calling 
-
 socket.on("join room", roomID => {
   if (rooms[roomID]) {
       rooms[roomID].push(socket.id);

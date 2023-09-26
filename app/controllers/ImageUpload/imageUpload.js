@@ -1,9 +1,12 @@
 const hairStylesUpload = require("../../middlewares/imageUpload")
 const {pool}= require('../../config/db.config')
+
+
+// UPLOAD IMAGE ON SERVER
 exports.uploadImage = async (req,res)=>{
   const client = await pool.connect();
     try{
-     
+        // FUNCTION CALLED TO UPLOAD UPDATE IN PARTICULAR FOLDER ACCORDING TO THE PROVIDED IMAGE TYPE
         hairStylesUpload(req, res, function (err) {
           if(!req.file){
             return(

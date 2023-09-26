@@ -1,4 +1,6 @@
 const { pool } = require("../../config/db.config")
+
+// THIS API IS TO UPDATE INCOGNITO STATUS OF A USER
 exports.changeIncognitoStatus = async (req, res) => {
     const db = await pool.connect();
     try {
@@ -47,6 +49,8 @@ exports.changeIncognitoStatus = async (req, res) => {
         })
     }
 }
+
+// THIS API IS FOR GETTING USER WITH INCOGNITO STATUS TRUE
 exports.getIncognitoUsers = async (req, res) => {
     const db = await pool.connect();
     try {
@@ -79,6 +83,8 @@ exports.getIncognitoUsers = async (req, res) => {
         })
     }
 }
+
+// THIS API IS FOR GETTING USER WITH INCOGNITO STATUS FALSE
 exports.getNonIncognitoUsers = async (req, res) => {
     const db = await pool.connect();
     try {

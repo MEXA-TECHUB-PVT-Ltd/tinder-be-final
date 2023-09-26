@@ -5,7 +5,7 @@ const {pool} = require("../../config/db.config");
 
 
 
-
+// THIS API IS FOR SIGNING UP AN ADMIN
 exports.registerAdmin =async (req,res,next)=>{
     const client = await pool.connect();
 
@@ -72,6 +72,8 @@ exports.registerAdmin =async (req,res,next)=>{
     
     
 }
+
+// THIS API IS TO LOGIN USER
 exports.login = async (req,res)=>{
     try{
         const email = req.body.email;
@@ -126,6 +128,8 @@ exports.login = async (req,res)=>{
         })
     }
 }
+
+// THIS API IS TO GET A ADMIN PROFILE DATA
 exports.viewAdminProfile = async(req,res)=>{
     try{
         const admin_id = req.query.admin_id;
@@ -166,6 +170,7 @@ exports.viewAdminProfile = async(req,res)=>{
     }
 }
 
+// THIS API IS TO UPDATE ADMIN PROFILE
 exports.updateProfile = async (req, res) => {
     const client = await pool.connect();
     try {
@@ -230,6 +235,7 @@ exports.updateProfile = async (req, res) => {
       }
 }
 
+// THIS API WILL RETURN ALL REGISTERED ADMINS
 exports.getAllAdmins = async(req,res)=>{
     const client = await pool.connect();
     try{
@@ -263,6 +269,7 @@ exports.getAllAdmins = async(req,res)=>{
       }
 }
 
+// THIS API IS TO UPDATE ADMIN PASSWORD
 exports.passwordUpdate = async(req,res)=>{
     const client = await pool.connect();
     try{

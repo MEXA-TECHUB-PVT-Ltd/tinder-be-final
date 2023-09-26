@@ -2,7 +2,7 @@ const { read } = require("fs");
 const {pool} = require("../../config/db.config");
 const { restart } = require("nodemon");
 
-
+// THIS API IS FOR SENDING NOTIFICATION TO A USER
 exports.sendNotification = async (req, res) => {
     const client = await pool.connect();
     try {
@@ -62,6 +62,7 @@ exports.sendNotification = async (req, res) => {
 
 }
 
+// THIS API IS FOR GETTING USER NOTIFICATIONS
 exports.getUserNotifications = async (req, res) => {
     const client = await pool.connect();
     try {
@@ -173,6 +174,7 @@ exports.getUserNotifications = async (req, res) => {
 
 }
 
+// THIS API IS TO UPDATE READ STATUS OF USER NOTIFICATION
 exports.readNotification = async (req,res)=>{
     try{
         const notificaiton_id = req.query.notificaiton_id;
