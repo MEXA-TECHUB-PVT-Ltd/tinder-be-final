@@ -1,6 +1,6 @@
 const {pool} = require('../../config/db.config');
 
-
+// THIS API IS FOR ADDING ABOUT US
 exports.add_aboutus = async(req,res)=>{
     const client = await pool.connect();
     try{
@@ -34,7 +34,7 @@ exports.add_aboutus = async(req,res)=>{
         client.release();
       }
 }
-
+// THIS API IS TO GET ALL ABOUT US
 exports.getAlladd_aboutus= async(req,res)=>{
     const client = await pool.connect();
 
@@ -70,7 +70,7 @@ exports.getAlladd_aboutus= async(req,res)=>{
         client.release();
       }
 }
-
+// THIS API IS TO GET SPECIFIC ABOUT US
 exports.viewAboutUs = async(req,res)=>{
     const client = await pool.connect();
     try{
@@ -106,7 +106,7 @@ exports.viewAboutUs = async(req,res)=>{
         client.release();
       }
 }
-
+// THIS API IS TO GET ACTIVE ABOUT US
 exports.viewActiveAboutUs = async(req,res)=>{
     const client = await pool.connect();
 
@@ -142,7 +142,7 @@ exports.viewActiveAboutUs = async(req,res)=>{
         client.release();
       }
 }
-
+// THIS API IS TO UPDATE ABOUT US
 exports.updateAboutUs= async(req,res)=>{
     const client = await pool.connect();
 
@@ -181,7 +181,7 @@ exports.updateAboutUs= async(req,res)=>{
         client.release();
       }
 }
-
+// THIS API IS TO UPDATE ABOUT US STATUS
 exports.updateStatus= async(req,res)=>{
     const client = await pool.connect();
     try{

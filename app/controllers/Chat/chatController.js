@@ -1,11 +1,12 @@
 const { pool } = require("../../config/db.config");
 
-
+// GET USERS CHATROOMS IN WHICH THEY ARE
 exports.getChatRoomsOfUser = async (req, res) => {
 
     try {
         let user_id = req.query.user_id;
 
+        // IF USER ID IS NOT PROVIDED RETURN
         if (!user_id) { return (res.json({ message: 'provide user id ', status: false })) };
 
 
@@ -34,7 +35,7 @@ exports.getChatRoomsOfUser = async (req, res) => {
       `
         const result = await pool.query(query , [user_id])
 
-
+        
         if (result.rows) {
             res.json({
                 message: "ALl chat rooms of this user is fetched",

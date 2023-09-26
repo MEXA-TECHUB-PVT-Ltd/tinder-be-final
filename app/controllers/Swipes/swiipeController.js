@@ -6,6 +6,7 @@ const fs = require('fs');
 const moment = require('moment-timezone');
 const pakistanTime = moment().tz('Asia/Karachi');
 
+// GET USERS ACCORDING TO THE PROVIDED FILTER
 exports.viewCards = async (req, res) => {
     try {
         let user_id = req.query.user_id;
@@ -55,9 +56,7 @@ exports.viewCards = async (req, res) => {
         let offset = (page - 1) * limit;
 
         const excludeProfileIds = await getSwipedProfileIds(user_id, 'right');
-        console.log(excludeProfileIds)
         const potentialMatches = await getPotentialMatches(latitude, longitude, user_id, excludeProfileIds, limit, offset, radius, start_age, end_age, gender, common_interest, recently_online);
-        console.log(potentialMatches)
         if (potentialMatches) {
             res.json({
                 message: "Fetched Successfully",
@@ -81,6 +80,7 @@ exports.viewCards = async (req, res) => {
     }
 }
 
+// SWIPE A USER. USER_ID AND SWIPED_USER_ID ARE STORED IN DB FOR FUTURE USE
 exports.swipe = async (req, res) => {
     const client = await pool.connect();
     try {
@@ -182,6 +182,7 @@ exports.swipe = async (req, res) => {
     }
 }
 
+// GET ALL MATCHES FOR A USER ACCORDING TO USER PREFRENCES
 exports.getAllMatches = async (req, res) => {
     try {
         const user_id = req.query.user_id;
@@ -240,6 +241,7 @@ exports.getAllMatches = async (req, res) => {
     }
 }
 
+// THIS WILL UN SWIPE A USER WHICH IS ALREADY SWIPED
 exports.rewindSwipe = async (req, res) => {
     const client = await pool.connect();
     try {
@@ -299,6 +301,7 @@ exports.rewindSwipe = async (req, res) => {
     }
 }
 
+// SUPER LIKES ARE STORED IN DB. USER_ID AND SUPER LIKED USER ID IS STORED IN DB
 exports.getAllSuperLikes = async (req, res) => {
     const client = await pool.connect();
     try {
@@ -338,6 +341,7 @@ exports.getAllSuperLikes = async (req, res) => {
     }
 }
 
+// THIS API IS FOR GETTING ALL SUPER LIKES STORED IN DB
 exports.getAllSuperLikedUsers = async (req, res) => {
     const client = await pool.connect();
     try {
@@ -383,6 +387,7 @@ exports.getAllSuperLikedUsers = async (req, res) => {
     }
 }
 
+// GET RIGHT SWIPED USERS BY A USER
 exports.getRightSwipesOfUser = async (req, res) => {
     const client = await pool.connect();
     try {
@@ -499,6 +504,7 @@ exports.getRightSwipesOfUser = async (req, res) => {
     }
 }
 
+// GET LEFT SWIPED USERS BY A USER
 exports.getLeftSwipesOfUser = async (req, res) => {
     const client = await pool.connect();
     try {
@@ -615,6 +621,7 @@ exports.getLeftSwipesOfUser = async (req, res) => {
     }
 }
 
+// BOOST A USER PROFILE TO APEAR AT TOP IN APP
 exports.boost = async (req, res) => {
     const client = await pool.connect();
     try {
@@ -687,6 +694,7 @@ exports.boost = async (req, res) => {
     }
 }
 
+// THIS WILL GIVE ALL BOOSTED PROFILES 
 exports.getAllBoostedProfiles = async (req, res) => {
     const client = await pool.connect();
     const { user_id } = req.query;
@@ -720,6 +728,7 @@ exports.getAllBoostedProfiles = async (req, res) => {
     }
 }
 
+// THIS API WILL RETURN ALL THE USERS WHO LIKED A SPECIFIC USER
 exports.getAllUserWhoLikedYou = async (req, res) => {
     const client = await pool.connect();
     try {
@@ -836,6 +845,7 @@ exports.getAllUserWhoLikedYou = async (req, res) => {
     }
 }
 
+// THIS API WILL GET ALL THE MATCH COUNT OF APPLICATION
 exports.getAllPlatformMatchesCount = async (req, res) => {
     try {
         const query = `SELECT COUNT(*) AS total_matches
@@ -935,9 +945,9 @@ async function getSwipedProfileIds(userId, direction) {
 
 }
 
+// THIS FUNCTION WILL RETURN MATCHED USER ACCORDING TO GIVEN FILTER
 async function getPotentialMatches(latitude, longitude, userId, excludeProfileIds, limit, offset, maxDistance, start_age, end_age, gender, common_interest, recently_online) {
     try {
-        console.log('in potential')
         let query;
 
         if (gender && !recently_online) {
@@ -1026,7 +1036,6 @@ async function getPotentialMatches(latitude, longitude, userId, excludeProfileId
     
     `;
         }
-        console.log(query)
         let values;
         if (gender) {
             values = [latitude, longitude, userId, excludeProfileIds, maxDistance, offset, limit, gender, false];
@@ -1035,13 +1044,12 @@ async function getPotentialMatches(latitude, longitude, userId, excludeProfileId
             values = [latitude, longitude, userId, excludeProfileIds, maxDistance, offset, limit, false];
 
         }
-        console.log(values)
         const result = await pool.query(query, values);
-        console.log("result: ",result)
         let array = result.rows;
 
         if (start_age && end_age) {
             if (array) {
+                console.log(array)
                 array = array.filter(record => {
                     if (record.age_years) {
                         if (record.age_years >= start_age && record.age_years <= end_age) {

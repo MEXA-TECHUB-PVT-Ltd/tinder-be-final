@@ -2,7 +2,7 @@
 
 const { pool } = require("../../config/db.config");
 
-
+// GET USER BY GENDER
 exports.searchByGender = async (req, res) => {
     const client = await pool.connect();
     try {
@@ -205,6 +205,7 @@ exports.searchByGender = async (req, res) => {
 
 }
 
+// GET USER BY AGE
 exports.searchByAge = async (req, res) => {
     const client = await pool.connect();
     try {
@@ -436,6 +437,7 @@ exports.searchByAge = async (req, res) => {
 
 }
 
+// GET USER BY NAME
 exports.searchByName = async (req, res) => {
     const client = await pool.connect();
     try {
@@ -640,6 +642,7 @@ exports.searchByName = async (req, res) => {
 
 }
 
+// GET USER BY INTERESTS
 exports.searchByCommonInterest = async (req, res) => {
     const client = await pool.connect();
     try {
@@ -881,6 +884,7 @@ exports.searchByCommonInterest = async (req, res) => {
 
 }
 
+// GET USER BY NEAREST DISTANCE
 exports.searchByDistance= async (req, res) => {
     const client = await pool.connect();
     try {
@@ -1104,6 +1108,8 @@ exports.searchByDistance= async (req, res) => {
     }
 
 }
+
+// GET LAST 30MINUITES ACTIVE USER
 exports.recentlyActive = async (req, res) => {
     const client = await pool.connect();
     try {

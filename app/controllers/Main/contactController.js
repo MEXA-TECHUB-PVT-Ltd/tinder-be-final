@@ -1,8 +1,7 @@
 const { pool } = require("../../config/db.config");
 const format = require('pg-format');
 
-
-
+// THIS API IS FOR SAVING USER CONTACTS IN DB
 exports.importContacts = async (req, res) => {
     try {
         let user_id = req.body.user_id;
@@ -73,6 +72,7 @@ exports.importContacts = async (req, res) => {
     }
 }
 
+// THIS API IS FOR GETTING USER CONTACTS FROM DB
 exports.getImportedContactsByUser = async (req, res) => {
     try {
         let user_id = req.query.user_id;
@@ -113,6 +113,7 @@ exports.getImportedContactsByUser = async (req, res) => {
     }
 }
 
+// THIS API FOR UPDATING BLOCK STATUS OF A CONTACT TO BLOCK
 exports.blockContact = async (req, res) => {
     try {
         let phone_number = req.body.phone_number;
@@ -153,6 +154,7 @@ exports.blockContact = async (req, res) => {
     }
 }
 
+// THIS API FOR UPDATING BLOCK STATUS OF A CONTACT TO UNBLOCK
 exports.unblockContact = async (req, res) => {
     try {
         let phone_number = req.body.phone_number;

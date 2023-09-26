@@ -1,7 +1,7 @@
 
 const {pool}  = require("../../config/db.config");
 
-
+// THIS API IS TO CREATE A POST AGAINST USER_ID
 exports.createPost = async (req,res)=>{
     try{
         const user_id = req.body.user_id ;
@@ -45,6 +45,8 @@ exports.createPost = async (req,res)=>{
         })
     }
 }
+
+// THIS API IS FOR GETTING ALL POSTS BY USER_ID
 exports.getAllPosts = async(req,res)=>{
     try{
         const user_id = req.query.user_id;

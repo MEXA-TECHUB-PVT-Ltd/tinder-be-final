@@ -1,5 +1,6 @@
 const { pool } = require("../../config/db.config");
 
+// GET CHATROOM MESSAGES OF USER 
 exports.getMessages = async (req, res) => {
     try {
         const user_id = req.query.user_id;
@@ -82,6 +83,7 @@ exports.getMessages = async (req, res) => {
     }
 }
 
+// DELETE A MESSAGE OF USER
 exports.deleteMessage = async (req, res) => {
     try {
         const message_id = req.body.message_id;

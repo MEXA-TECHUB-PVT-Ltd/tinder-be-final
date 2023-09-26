@@ -13,7 +13,7 @@ const transporter = nodemailer.createTransport({
 });
 
 
-
+// SEND OTP ON REGISTERED EMAIL
 exports.sendEmail = async (req, res) => {
     const client = await pool.connect();
 
@@ -57,7 +57,7 @@ finally {
     client.release();
   }
 }
-
+// VERIFY THE OTP SENT TO EMAIL
 exports.verifyOTP = async (req,res)=>{
     const client = await pool.connect();
     try{
@@ -94,7 +94,7 @@ finally {
   }
 }
 
-
+// FUNTION TO SEND EMAIL
 const sendOTPVerificationEmail = async (email, res) => {
     try {
         let result;

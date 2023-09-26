@@ -5,7 +5,7 @@ const Joi = require("joi");
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
 
-
+// THIS API IS TO REGISTER USER USING PHONE
 exports.registerWithPh = async (req, res, next) => {
     const client = await pool.connect();
     try {
@@ -67,7 +67,7 @@ exports.registerWithPh = async (req, res, next) => {
         client.release();
     }
 }
-
+// THIS API IS TO REGISTER USER USING EMAIL
 exports.registerWithEmail = async (req, res, next) => {
     const client = await pool.connect();
     try {
@@ -150,7 +150,7 @@ exports.registerWithEmail = async (req, res, next) => {
     }
 
 }
-
+// THIS API IS TO LOGIN USER USING EMAIL
 exports.login_with_email = async (req, res) => {
     try {
         const email = req.body.email;
@@ -228,7 +228,7 @@ exports.login_with_email = async (req, res) => {
         })
     }
 }
-
+// THIS API IS TO LOGIN USER USING PHONE
 exports.login_with_ph = async (req, res) => {
     try {
         const phone_number = req.body.phone_number;
@@ -306,7 +306,7 @@ exports.login_with_ph = async (req, res) => {
         })
     }
 }
-
+// THIS API IS TO UPDATE USER PROFILE
 exports.updateProfile = async (req, res) => {
     try {
         const user_id = req.body.user_id;
@@ -542,7 +542,7 @@ exports.updateProfile = async (req, res) => {
         })
     }
 }
-
+// THIS API IS TO UPDATE USER PASSWORD
 exports.updatePassword = async (req, res) => {
     try {
         console.log('in update')
@@ -620,7 +620,7 @@ exports.updatePassword = async (req, res) => {
         })
     }
 }
-
+// THIS API IS TO VIEW USER PROFILE DATA
 exports.viewProfile = async (req, res) => {
     try {
         const user_id = req.query.user_id;
@@ -740,7 +740,7 @@ exports.viewProfile = async (req, res) => {
         })
     }
 }
-
+// THIS API IS TO GET ALL USER S
 exports.getAllUsers = async (req, res) => {
     const client = await pool.connect();
     try {
@@ -939,6 +939,8 @@ exports.getAllUsers = async (req, res) => {
     }
 
 }
+
+// THIS WILL RETURN ALL USER EXCEPT THE USER_ID SENT IN PARAMS
 exports.getAllUsersFiltered = async (req, res) => {
     const client = await pool.connect();
     const { user_id } = req.query;
@@ -1056,6 +1058,8 @@ exports.getAllUsersFiltered = async (req, res) => {
     }
 
 }
+
+// THIS WILL RETURN ALL USER BY PREFERENCE
 exports.usersByPreference = async (req, res) => {
     try {
         const preference_id = req.query.preference_id;
@@ -1238,6 +1242,7 @@ exports.usersByPreference = async (req, res) => {
     }
 }
 
+// THIS WILL RETURN ALL USER BY CATEGORY
 exports.usersByCategory = async (req, res) => {
     try {
         const category_id = req.query.category_id;
@@ -1421,6 +1426,7 @@ exports.usersByCategory = async (req, res) => {
     }
 }
 
+// THIS WILL RETURN ALL USER BY INTEREST
 exports.usersByInterest = async (req, res) => {
     try {
         const interest = req.query.interest;
@@ -1604,6 +1610,7 @@ exports.usersByInterest = async (req, res) => {
     }
 }
 
+// THIS WILL RETURN ALL USER WHO HAVE SUBSCRIPTION STATUS TRUE
 exports.getAllSubscribedUsers = async (req, res) => {
     try {
 
@@ -1651,6 +1658,7 @@ exports.getAllSubscribedUsers = async (req, res) => {
     }
 }
 
+// THIS API IS TO UPDATE SUBSCRIPTION STATUS
 exports.updateSubscribedStatus = async (req, res) => {
     try {
         const user_id = req.query.user_id;
@@ -1690,6 +1698,7 @@ exports.updateSubscribedStatus = async (req, res) => {
     }
 }
 
+// THIS API IS TO UPDATE ACTIVE STATUS
 exports.updateActiveStatus = async (req, res) => {
     try {
         const user_id = req.query.user_id;
@@ -1764,6 +1773,7 @@ exports.updateActiveStatus = async (req, res) => {
     }
 }
 
+// THIS API IS TO UPDATE BLOCK STATUS
 exports.updateBlockStatus = async (req, res) => {
     try {
         const user_id = req.query.user_id;
@@ -1823,6 +1833,7 @@ exports.updateBlockStatus = async (req, res) => {
     }
 }
 
+// THIS API IS TO DELETE A SPECIFIC USER
 exports.deleteUser = async (req, res) => {
     const client = await pool.connect();
     try {
